@@ -198,13 +198,18 @@ namespace OpenTK_console_01
         /** crearea si afisarea unui meniu in consola **/
         private void dispayHelp()
         {
-            Console.WriteLine("\n             === MENIU DE UTILIZARE === \n");
-            Console.WriteLine(" TEMA 2 - Miscarea obiectului randat la apasarea a 2 taste si prin miscarea mouse-ului \n");
-            Console.WriteLine("     << Obiectul se va misca spre dreapta prin apasarea tastei R si spre stanga la apasarea tastei L >>\n");
-            Console.WriteLine("     << Prin miscarea mouse-ului in sus si jos obiectul se va muta spre sus, respectiv jos >>\n");
-            Console.WriteLine(" TEMA 3 - La apasarea unui set de taste se vor schimba culorile triunghiului \n");
-            Console.WriteLine("     << La apasarea tastei X se schimba aleatoriu culoarea tringhiului >>\n");
-            Console.WriteLine("     << In consola vor aparea valorile RGB la fiecare schimbare a culorii >>\n");
+            Console.WriteLine("\n                                   === MENIU DE UTILIZARE === \n");
+            Console.WriteLine("         TEMA 2 - Miscarea obiectului randat la apasarea a 2 taste si prin miscarea mouse-ului \n");
+            Console.WriteLine(" R - obiectul se misca la dreapta\n");
+            Console.WriteLine(" L - obiectul se misca la stanga\n");
+            Console.WriteLine(" Miscare mouse sus - obiectul se va misca in sus\n");
+            Console.WriteLine(" Miscare mouse jos - obiectul se va misca in jos\n");
+            
+            Console.WriteLine("         TEMA 3 - La apasarea unui set de taste se vor schimba culorile triunghiului \n");
+            Console.WriteLine(" X - se schimba aleatoriu culoarea triunghiului\n");
+            Console.WriteLine(" In consola vor aparea valorile RGB la fiecare schimbare a culorii >>\n");
+            
+           
             
 
         }
