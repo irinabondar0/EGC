@@ -1,17 +1,20 @@
 ﻿using System;
 using System.Drawing;
-
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
 using OpenTK.Input;
 
+
+/**STUDENT : BONDAR IRINA
+   GRUPA   : 3131A
+   TEMA NR. 4 **/
+
 namespace OpenTK_console_02
 {
-   class Window3D : GameWindow
-   {
-       
-    
+    class Window3D : GameWindow
+    {
+        private int selectedFaceIndex = 0;
         const float rotation_speed = 180.0f;
         //float angle;
         bool showCube = true;
@@ -21,6 +24,10 @@ namespace OpenTK_console_02
         private int transStep = 0;
         private int radStep = 0;
         private int attStep = 0;
+
+        Color4 faceColor = Color4.Blue;
+
+        
 
         private bool newStatus = false;
 
@@ -60,18 +67,22 @@ namespace OpenTK_console_02
                 6, 6, 12,
                 6, 12, 12,
                 12, 12, 12,
-                12, 12, 12}};
-        private Color[] colorVertices = { Color.White, Color.LawnGreen, Color.WhiteSmoke, Color.Tomato, Color.Turquoise, Color.OldLace, Color.Olive, Color.MidnightBlue, Color.PowderBlue, Color.PeachPuff, Color.LavenderBlush, Color.MediumAquamarine };
+                12, 12, 12
+            }
+        };
+        private Color[] colorVertices = { Color.Tomato, Color.LawnGreen, Color.WhiteSmoke, Color.Tomato, Color.Turquoise, Color.Tomato, Color.HotPink, Color.Tomato, Color.PowderBlue, Color.PeachPuff, Color.Tomato, Color.MediumAquamarine };
 
         public Window3D() : base(800, 600, new GraphicsMode(32, 24, 0, 8))
         {
+            KeyDown += Keyboard_KeyDown;
+            
         }
-
+        
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
 
-            GL.ClearColor(Color.MidnightBlue);
+            GL.ClearColor(Color.LightCyan);
             GL.Enable(EnableCap.DepthTest);
             GL.Hint(HintTarget.PolygonSmoothHint, HintMode.Nicest);
         }
@@ -95,21 +106,14 @@ namespace OpenTK_console_02
             showCube = true;
         }
 
+
+       
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             base.OnUpdateFrame(e);
 
             KeyboardState keyboard = Keyboard.GetState();
             MouseState mouse = Mouse.GetState();
-
-            /*if (mouse[MouseButton.Left])
-            {
-                Console.WriteLine("Click non-accelerat (" + mouse.x + "," + mouse.y + "); accelerat (" + mouse.x + "," + Mouse.y + ")");
-                IntPtr pix = new IntPtr();
-                GL.ReadPixels(Mouse.x, Mouse.y, 1, 1, PixelFormat.Rgb, PixelType.Int, pix);
-                Console.WriteLine("Pixel colour (" + IntPtr.Size + " - 32 or 64 bits process);");
-                Console.WriteLine("");
-            }*/
 
             if (keyboard[Key.Escape])
             {
@@ -119,7 +123,7 @@ namespace OpenTK_console_02
 
             if (keyboard[Key.P] && !keyboard.Equals(lastKeyPress))
             {
-                
+
                 if (showCube)
                 {
                     showCube = false;
@@ -140,36 +144,76 @@ namespace OpenTK_console_02
                     newStatus = true;
                 }
             }
-
-            if (keyboard[Key.A])
-            {
-                transStep--;
-            }
-            if (keyboard[Key.D])
-            {
-                transStep++;
-            }
-
-            if (keyboard[Key.W])
-            {
-                radStep--;
-            }
-            if (keyboard[Key.S])
-            {
-                radStep++;
-            }
-
-            if (keyboard[Key.Up])
-            {
-                attStep++;
-            }
-            if (keyboard[Key.Down])
-            {
-                attStep--;
-            }
-
-            lastKeyPress = keyboard;
+            
         }
+
+        void Keyboard_KeyDown(object sender, KeyboardKeyEventArgs e)
+        {
+
+
+            if (e.Key == Key.Escape)
+                this.Exit();
+
+            if (e.Key == Key.F11)
+                if (this.WindowState == WindowState.Fullscreen)
+                    this.WindowState = WindowState.Normal;
+                else
+                    this.WindowState = WindowState.Fullscreen;
+            if (e.Key == Key.H)
+            {
+                displayHelp();
+            }
+
+            /** rezolvarea cerintei 1 din tema 4, laborator 4 **/
+            /** la apăsarea tastei C, schimbăm culoarea feței cubului **/
+
+            if (e.Key==Key.C)
+            {
+                selectedFaceIndex = (selectedFaceIndex + 1) % (35 / 3);
+            }
+
+            /** rezolvarea cerintei 2 din tema 4, laborator 4 **/
+            /** la apasarea tastei B, se schimba culorile vertexurilor triunghiurilor **/
+
+            if (e.Key==Key.B)
+            {
+                selectedFaceIndex = (selectedFaceIndex + 1) % 12;
+                for(int i=0;i<12;i++)
+                {
+                    if(i==selectedFaceIndex)
+                    {
+                        /** generare culoare random **/
+                        Random random = new Random();
+                        colorVertices[i] = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                        
+                        /** afisare valori RGB **/
+                        Console.WriteLine($"Valorile RGB sunt :  R={colorVertices[i].R}, G={colorVertices[i].G}, B={colorVertices[i].B}");
+                    }
+                    else
+                    {
+                        /** triunghiurile ramase au culorile initiale **/
+                        colorVertices[i] = colorVertices[i / 3];
+                    }
+                }
+                
+            }
+
+            /** rezolvarea cerintei 3 din tema 4, laborator 4 **/
+            /** la apasarea tastei Y, se schimba culoarea cubului 3D **/
+
+            if (e.Key == Key.Y)
+            {
+                /** generare culoare cub initiala **/
+                Random random = new Random();
+                Color newCubeColor = Color.FromArgb(random.Next(256), random.Next(256), random.Next(256));
+                for(int i=0;i<12;i++)
+                {
+                    colorVertices[i] = newCubeColor;
+                }
+            }
+
+        }
+
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -182,61 +226,38 @@ namespace OpenTK_console_02
                 DrawCube();
             }
 
-            //angle += rotation_speed * (float)e.Time;
-            //GL.Rotate(angle, 0.0f, 1.0f, 0.0f);
-
-            if (axesControl)
-            {
-                DrawAxes();
-            }
-
             if (showCube == true)
             {
                 GL.PushMatrix();
                 GL.Translate(transStep, attStep, radStep);
-                //GL.Translate(0, 0, radStep);
-                //GL.Translate(0, attStep, 0);
                 DrawCube();
                 GL.PopMatrix();
             }
-
-            //GL.Flush();
-
-
             SwapBuffers();
         }
 
-        private void DrawAxes()
-        {
-            // Desenează axa Ox (cu roșu).
-            GL.Begin(PrimitiveType.Lines);
-            GL.Color3(Color.Red);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(XYZ_SIZE, 0, 0);
-            GL.End();
-
-            // Desenează axa Oy (cu galben).
-            GL.Begin(PrimitiveType.Lines);
-            GL.Color3(Color.Yellow);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, XYZ_SIZE, 0); ;
-            GL.End();
-
-            // Desenează axa Oz (cu verde).
-            GL.Begin(PrimitiveType.Lines);
-            GL.Color3(Color.Green);
-            GL.Vertex3(0, 0, 0);
-            GL.Vertex3(0, 0, XYZ_SIZE);
-            GL.End();
-        }
-
+       
         private void DrawCube()
         {
+            
             GL.Begin(PrimitiveType.Triangles);
             for (int i = 0; i < 35; i = i + 3)
             {
-                //For i As Integer = 0 To 35 Step 3
-                GL.Color3(colorVertices[i / 3]);
+                /** utilizăm indexul pentru a determina culoarea feței **/
+                int faceColorIndex = i / 3;
+
+                /** dacă indexul feței este cel selectat, folosim o altă culoare **/
+                if (faceColorIndex == selectedFaceIndex)
+                {
+                    /** se schimba random culoarea unei fete **/
+                    Random random = new Random();
+                    faceColor = new Color4((float)random.NextDouble(), (float)random.NextDouble(), (float)random.NextDouble(), 1.0f);
+                }
+                else
+                {
+                    GL.Color3(colorVertices[faceColorIndex]);
+                }
+
                 GL.Vertex3(objVertices[0, i], objVertices[1, i], objVertices[2, i]);
                 GL.Vertex3(objVertices[0, i + 1], objVertices[1, i + 1], objVertices[2, i + 1]);
                 GL.Vertex3(objVertices[0, i + 2], objVertices[1, i + 2], objVertices[2, i + 2]);
@@ -244,16 +265,18 @@ namespace OpenTK_console_02
             GL.End();
         }
 
-        [STAThread]
-        static void Main(string[] args)
-        {
+        /** creare meniu de utilizare **/
 
-            using (Window3D example = new Window3D())
-            {
-                example.Run(30.0, 0.0);
-            }
+        private void displayHelp()
+        {
+            Console.WriteLine("\n                                   === MENIU DE UTILIZARE === \n");
+            Console.WriteLine("         TEMA 4  \n");
+            Console.WriteLine(" C - culoarea unei fete ale unui cub 3D se va modifica\n");
+            Console.WriteLine(" B - in consola vor aparea valorile RGB la fiecare schimbare a culorii >>\n");
+            Console.WriteLine(" Y - culoarea cubului 3D se va modifica\n");
 
         }
+
     }
 }
 

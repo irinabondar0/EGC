@@ -12,23 +12,23 @@ using System.Threading.Tasks;
 
 /**STUDENT : BONDAR IRINA
    GRUPA   : 3131A
-   TEMA NR. 3 **/
+   TEMA NR. 4 **/
 
 
 namespace OpenTK_console_01
 
 {
-    
+
     class SimpleWindow : GameWindow
     {
-        private int anteriorMouseX , anteriorMouseY ;
-        private int nr;
-        private int pixeli_1 = 0,pixeli_2= 0;
+        private int anteriorMouseX, anteriorMouseY;
+        //private int nr;
+        private int pixeli_1 = 0, pixeli_2 = 0;
         private float red1, green1, blue1;
         private float red2, green2, blue2;
         private float red3, green3, blue3;
 
-        
+
 
         public SimpleWindow() : base(800, 600)
         {
@@ -60,14 +60,15 @@ namespace OpenTK_console_01
             /** rezolvare cerinta 9 din tema 3 **/
             /** afisarea in consola a valorilor RGB pentru fiecare vertex **/
 
-            if (e.Key == Key.X) {
+            if (e.Key == Key.X)
+            {
 
 
-                
+
                 GenerateRandomColors();
                 Console.WriteLine("Vertex 1 - R: " + red1 + ", G: " + green1 + ", B: " + blue1);
                 Console.WriteLine("Vertex 2 - R: " + red2 + ", G: " + green2 + ", B: " + blue2);
-                Console.WriteLine("Vertex 3 - R: " + red3 + ", G: " + green3 + ", B: " + blue3+ " \n");
+                Console.WriteLine("Vertex 3 - R: " + red3 + ", G: " + green3 + ", B: " + blue3 + " \n");
 
             }
 
@@ -91,7 +92,7 @@ namespace OpenTK_console_01
 
             GL.Viewport(pixeli_1, pixeli_2, Width, Height);
 
-           
+
         }
 
         /** Rezolvarea problemei 2 din tema 2 **/
@@ -166,7 +167,7 @@ namespace OpenTK_console_01
 
         }
 
-       
+
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
@@ -188,7 +189,7 @@ namespace OpenTK_console_01
             GL.Color3(red3, green3, blue3);
             GL.Vertex2(0.5, 0.5);
 
-  
+
             GL.End();
 
             this.SwapBuffers();
@@ -204,16 +205,16 @@ namespace OpenTK_console_01
             Console.WriteLine(" L - obiectul se misca la stanga\n");
             Console.WriteLine(" Miscare mouse sus - obiectul se va misca in sus\n");
             Console.WriteLine(" Miscare mouse jos - obiectul se va misca in jos\n");
-            
+
             Console.WriteLine("         TEMA 3 - La apasarea unui set de taste se vor schimba culorile triunghiului \n");
             Console.WriteLine(" X - se schimba aleatoriu culoarea triunghiului\n");
             Console.WriteLine(" In consola vor aparea valorile RGB la fiecare schimbare a culorii >>\n");
-            
-           
-            
+
+
+
 
         }
 
-        
+
     }
 }
