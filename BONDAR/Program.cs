@@ -8,21 +8,31 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace OpenTK_console_02
+
+
+
+/**STUDENT : BONDAR IRINA
+   GRUPA   : 3131A
+   TEMA NR. 3 **/
+
+
+namespace OpenTK_console_01
 {
+
     class Program
     {
-        
         [STAThread]
         static void Main(string[] args)
         {
 
-            using (Window3D example = new Window3D())
+            using (SimpleWindow example = new SimpleWindow())
             {
+
+
+                Console.WriteLine("     ** Apasati H pentru afisarea meniului de utilizare ** ");
                 example.Run(30.0, 0.0);
             }
-
         }
+
     }
 }
-
